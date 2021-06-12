@@ -1,13 +1,15 @@
 'use strict';
 
 {
-
     class Square {
         constructor() {
             this.td = document.createElement('td');
-            this.span = document.createElement('span');
-            this.span.classList.add('hole');
-            this.td.appendChild(this.span);
+            this.span1 = document.createElement('span');
+            this.span1.classList.add('hole');
+            this.td.appendChild(this.span1);
+            this.span2 = document.createElement('span');
+            this.span2.classList.add('judge');
+            this.td.appendChild(this.span2);
 
             this.img = document.createElement('img');
 
@@ -57,15 +59,23 @@
             this.isCorrect = true;
         }
 
+        changeTransitionDuration(dt = '.4s') {
+            this.img.style.transitionDuration = dt;
+        }
+
         setScore(isCorrect) {
+            this.span2.classList.remove('correct', 'wrong');
             if(isCorrect) {
                 correct += 1;
                 document.getElementById('correct').textContent = correct;
                 score += 10;
+
+                this.span2.classList.add('correct');
             } else {
                 wrong += 1;
                 document.getElementById('wrong').textContent = wrong;
                 score -= 20;
+                this.span2.classList.add('wrong');
             }
             document.getElementById('score').textContent = score;
         }
@@ -109,6 +119,11 @@
     function randomComeOut() {
         // const dt = duration;
 
+        const playProgress = remainTime / initialPlayTime; 
+        if(playProgress < (1 / 2)) {
+            duration = 1000;
+        }
+
         gameTimeoutId = setTimeout(() =>{
             const random = Math.floor(Math.random() * squares.length);
             const changeRate = Math.random();
@@ -116,6 +131,10 @@
                 squares[random].changeImageSrc();
             } else {
                 squares[random].setDefaultImage();
+            }
+
+            if(playProgress < (3 / 5)) {
+                squares[random].changeTransitionDuration();
             }
             squares[random].comeOUt();
 
@@ -131,7 +150,6 @@
     let duration = 1500;
 
     const timerText = document.querySelector('#timer span');
-    
 
     function playTimeCount() {
         timerTimeoutId = setTimeout(() => {
@@ -142,11 +160,6 @@
                 String(remainTime % 1000).padStart(3, '0');
     
             timerText.textContent = `${seconds}:${milliSeconds}`;
-
-            const playProgress = remainTime / initialPlayTime; 
-            if(playProgress < (1 / 2)) {
-                duration = 1000;
-            }
 
             if(remainTime <= 0) {
                 clearTimeout(timerTimeoutId);
