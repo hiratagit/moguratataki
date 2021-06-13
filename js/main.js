@@ -176,19 +176,31 @@
             if(remainTime <= 0) {
                 clearTimeout(timerTimeoutId);
                 clearTimeout(gameTimeoutId);
+
+                startBtn.style.display = 'none';
+                resetBtn.style.display = 'block';
                 return;
             }
             playTimeCount();
         }, 50);
     }
 
-    document.addEventListener('click', () => {
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    resetBtn.style.display = 'none';
+
+    startBtn.addEventListener('click', () => {
         if(isPlaying) return;
         isPlaying = true;
-        
-        playTimeCount();
-        randomComeOut();
-        
+
+        startBtn.style.background = 'grey';
+
+        setTimeout(() => {
+            playTimeCount();
+            randomComeOut();
+        }, 1000);
+         
     })
 
 }
