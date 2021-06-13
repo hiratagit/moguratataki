@@ -58,13 +58,13 @@ td span.judge.correct{
     background: url('../img/correct.png') no-repeat;
     background-size:contain;
     background-position: center;
-    animation: blinking 1s linear;
+    animation: blinking .7s linear;
 }
 td span.judge.wrong{
     background: url('../img/wrong.png') no-repeat;
     background-size:contain;
     background-position: center;
-    animation: blinking .3s linear;
+    animation: blinking .7s linear;
 }
 
 @keyframes blinking {

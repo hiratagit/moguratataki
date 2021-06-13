@@ -38,9 +38,11 @@
 
             }, 10);
 
-            this.img.addEventListener('transitionend', () => {
+            this.img.addEventListener('transitionend', (e) => {
                 setTimeout(() => {
                     this.img.classList.remove('inview');
+                    // this.span2.classList.remove('correct');
+                    // this.span2.classList.remove('wrong');
                 }, 10)
             });
         }
@@ -64,7 +66,6 @@
         }
 
         setScore(isCorrect) {
-            this.span2.classList.remove('correct', 'wrong');
             if(isCorrect) {
                 correct += 1;
                 document.getElementById('correct').textContent = correct;
@@ -78,8 +79,12 @@
                 this.span2.classList.add('wrong');
             }
             document.getElementById('score').textContent = score;
-        }
 
+            this.span2.addEventListener('animationend', () => {
+                this.span2.classList.remove('correct');
+                this.span2.classList.remove('wrong');
+            })
+        }
     }
 
     class Board {
@@ -126,7 +131,7 @@
 
         gameTimeoutId = setTimeout(() =>{
             const random = Math.floor(Math.random() * squares.length);
-            const changeRate = Math.random();
+            const changeRate = Math.random(); 
             if(changeRate < 0.25) {
                 squares[random].changeImageSrc();
             } else {
@@ -147,7 +152,7 @@
     const initialPlayTime = 30 * 1000;
     let remainTime = initialPlayTime;
     
-    let duration = 1500;
+    let duration = 2000;
 
     const timerText = document.querySelector('#timer span');
 
