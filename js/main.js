@@ -41,8 +41,6 @@
             this.img.addEventListener('transitionend', (e) => {
                 setTimeout(() => {
                     this.img.classList.remove('inview');
-                    // this.span2.classList.remove('correct');
-                    // this.span2.classList.remove('wrong');
                 }, 10)
             });
         }
@@ -61,7 +59,7 @@
             this.isCorrect = true;
         }
 
-        changeTransitionDuration(dt = '.4s') {
+        changeTransitionDuration(dt = '.5s') {
             this.img.style.transitionDuration = dt;
         }
 
@@ -70,20 +68,32 @@
                 correct += 1;
                 document.getElementById('correct').textContent = correct;
                 score += 10;
-
                 this.span2.classList.add('correct');
+
             } else {
                 wrong += 1;
                 document.getElementById('wrong').textContent = wrong;
                 score -= 20;
                 this.span2.classList.add('wrong');
             }
+            this.playSound(isCorrect);
             document.getElementById('score').textContent = score;
 
             this.span2.addEventListener('animationend', () => {
                 this.span2.classList.remove('correct');
                 this.span2.classList.remove('wrong');
             })
+        }
+
+        playSound(isCorrect) {
+            let sound;
+            if(isCorrect) {
+                sound = document.getElementById('correctSound')
+            } else {
+                sound = document.getElementById('wrongSound')
+            }
+            sound.currentTime = 0;
+            sound.play();
         }
     }
 
@@ -97,7 +107,6 @@
         _setUp() {
             for(let j = 0; j < 3; j++) {
                 const tr = document.createElement('tr');
-
                 for(let i = 0; i < 5; i++) {
                     const square = new Square();
                     this.squares.push(square);
@@ -122,27 +131,26 @@
     let wrong = 0;
 
     function randomComeOut() {
-        // const dt = duration;
 
         const playProgress = remainTime / initialPlayTime; 
         if(playProgress < (1 / 2)) {
             duration = 1000;
         }
 
+        const random = Math.floor(Math.random() * squares.length);
+        const changeRate = Math.random(); 
+        if(changeRate < 0.25) {
+            squares[random].changeImageSrc();
+        } else {
+            squares[random].setDefaultImage();
+        }
+
+        if(playProgress < (3 / 5)) {
+            squares[random].changeTransitionDuration();
+        }
+        squares[random].comeOUt();
+
         gameTimeoutId = setTimeout(() =>{
-            const random = Math.floor(Math.random() * squares.length);
-            const changeRate = Math.random(); 
-            if(changeRate < 0.25) {
-                squares[random].changeImageSrc();
-            } else {
-                squares[random].setDefaultImage();
-            }
-
-            if(playProgress < (3 / 5)) {
-                squares[random].changeTransitionDuration();
-            }
-            squares[random].comeOUt();
-
             randomComeOut();
         }, duration);
     }
@@ -151,7 +159,6 @@
     let timerTimeoutId;
     const initialPlayTime = 30 * 1000;
     let remainTime = initialPlayTime;
-    
     let duration = 2000;
 
     const timerText = document.querySelector('#timer span');
