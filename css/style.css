@@ -58,13 +58,13 @@ td span.judge.correct{
     background: url('../img/correct.png') no-repeat;
     background-size:contain;
     background-position: center;
-    animation: blinking .7s linear;
+    animation: blinking .3s linear;
 }
 td span.judge.wrong{
     background: url('../img/wrong.png') no-repeat;
     background-size:contain;
     background-position: center;
-    animation: blinking .7s linear;
+    animation: blinking .3s linear;
 }
 
 @keyframes blinking {
@@ -95,7 +95,7 @@ img.target {
     bottom: -80%;
     left: 50%;
     transform : translate(-50%, -0%);
-    transition: transform .5s linear;
+    transition: transform .7s linear;
 }
 
 img.target.inview {
