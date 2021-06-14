@@ -177,8 +177,11 @@
                 clearTimeout(timerTimeoutId);
                 clearTimeout(gameTimeoutId);
 
-                startBtn.style.display = 'none';
-                resetBtn.style.display = 'block';
+                setTimeout(() => {
+                    startBtn.style.display = 'none';
+                    resetBtn.style.display = 'block';
+
+                }, 1000);
                 return;
             }
             playTimeCount();
@@ -195,6 +198,7 @@
         isPlaying = true;
 
         startBtn.style.background = 'grey';
+        startBtn.style.opacity = '0.3';
 
         setTimeout(() => {
             playTimeCount();
