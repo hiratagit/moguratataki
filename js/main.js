@@ -178,7 +178,7 @@
                 clearTimeout(gameTimeoutId);
 
                 setTimeout(() => {
-                    startBtn.style.display = 'none';
+                    startBtn.style.display = 'none'; 
                     resetBtn.style.display = 'block';
 
                 }, 1000);
